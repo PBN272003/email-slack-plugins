@@ -1,0 +1,4 @@
+#dont refer this file in future edits
+tool_name: email
+author: priyanknaik
+api_spec_url: openapi.yaml

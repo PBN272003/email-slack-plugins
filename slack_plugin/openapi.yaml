@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Slack Message Plugin
+  version: "1.0.0"
+  description: Send messages to Slack channels via bot
+
+servers:
+  - url: https://c9ae05237e17.ngrok-free.app
+
+paths:
+  /send_slack_message:
+    post:
+      summary: Send a Slack message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - channel
+                - message
+              properties:
+                channel:
+                  type: string
+                  description: Channel ID (e.g., C098GGAQ8F8)
+                  example: "C098GGAQ8F8"
+                message:
+                  type: string
+                  description: Message content to send
+                  example: "Hello team, standup at 10am!"
+      responses:
+        '200':
+          description: Message sent successfully
+        '400':
+          description: Missing fields
+        '500':
+          description: Slack API error

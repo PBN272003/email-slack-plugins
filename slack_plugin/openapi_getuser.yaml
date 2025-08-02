@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Slack Lookup Plugin
+  version: "1.0.0"
+  description: Look up Slack user info using their email address
+
+servers:
+  - url: https://7ee18f319ca5.ngrok-free.app  
+
+paths:
+  /get_user_info:
+    post:
+      summary: Look up a Slack user by email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email address of the Slack user
+                  example: "spengler@ghostbusters.example.com"
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    description: Slack user object returned from API
+        '400':
+          description: Bad request - missing email
+        '500':
+          description: Error from Slack API

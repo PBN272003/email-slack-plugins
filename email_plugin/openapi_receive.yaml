@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Check Email Plugin
+  version: "1.0.0"
+  description: Fetch unread emails via IMAP for today
+
+servers:
+  - url: https://0d96064d9aab.ngrok-free.app
+
+paths:
+  /check_email:
+    get:
+      summary: Get unread emails from today
+      description: Returns sender, subject, body, and attachments for all unread emails received since today
+      responses:
+        '200':
+          description: List of unread emails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  unread_count:
+                    type: integer
+                    example: 1
+                  emails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        from:
+                          type: string
+                          example: "Amita Naik <amitanaik471@gmail.com>"
+                        subject:
+                          type: string
+                          example: "Hi"
+                        body:
+                          type: string
+                          example: "Su kare che Faltugiri kam kar"
+                        attachments:
+                          type: array
+                          items:
+                            type: string
+                          example: []
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Failed to connect to email server"

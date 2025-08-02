@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: SMTP Email Plugin
+  version: "1.0.0"
+  description: Send email using SMTP via Flask API
+servers:
+  - url: https://e4804a0494c0.ngrok-free.app
+
+paths:
+  /send_email:
+    post:
+      summary: Send an email via SMTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - to
+                - subject
+                - body
+              properties:
+                to:
+                  type: string
+                  format: email
+                  description: Recipient email address
+                  example: "user@example.com"
+                subject:
+                  type: string
+                  description: Subject of the email
+                  example: "Hello from plugin"
+                body:
+                  type: string
+                  description: HTML body content of the email
+                  example: "This is an email body"
+                cc:
+                  type: string
+                  description: Comma-separated CC emails (optional)
+                  example: "cc@example.com"
+                bcc:
+                  type: string
+                  description: Comma-separated BCC emails (optional)
+                  example: "bcc@example.com"
+                attachments:
+                  type: array
+                  description: List of file paths to attach (must exist on server)
+                  items:
+                    type: string
+                  example: ["./file.pdf"]
+      responses:
+        '200':
+          description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Email sent successfully
+        '400':
+          description: Bad request (missing or invalid parameters)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid recipient address
+        '500':
+          description: Server error (SMTP failed or crash)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
